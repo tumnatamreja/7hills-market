@@ -1,0 +1,35 @@
+"use client";
+import { useEffect, useState } from "react";
+
+export default function Orders() {
+  const [orders, setOrders] = useState([]);
+
+  async function loadOrders() {
+    const res = await fetch("/api/orders");
+    const data = await res.json();
+    setOrders(data);
+  }
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
+  return (
+    <div className="p-10">
+
+      <h1 className="text-2xl mb-6">ORDERS</h1>
+
+      <div className="space-y-4">
+        {orders.map((o: any) => (
+          <div key={o._id} className="glass p-4">
+            <p>{o.product}</p>
+            <p>${o.amount}</p>
+            <p>{o.address}</p>
+            <p>{o.status}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
